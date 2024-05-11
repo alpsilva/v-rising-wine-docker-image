@@ -1,0 +1,20 @@
+version: '3.7'
+
+services:
+  vrising:
+    container_name: v-rising
+    image: mephi00/v-rising-wine
+    volumes:
+      - type: bind
+        source: ./saves
+        target: /saves
+    env_file: .env
+    environment:
+      - V_RISING_NAME=${SERVER_NAME}
+      - V_RISING_PASSW=${SERVER_PASSWORD}
+      - V_RISING_SAVE_NAME=${SAVE_NAME}
+      - V_RISING_PUBLIC_LIST=true
+      - V_RISING_SETTING_PRESET=
+    ports:
+      - 9876:9876/udp
+      - 9877:9877/udp

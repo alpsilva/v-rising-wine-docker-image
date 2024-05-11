@@ -1,6 +1,7 @@
 stack_name = VRisingServerStack
-ec2_public_ip = 177.71.192.122 # Change to your created instance public IP.
 default_vpc_id = vpc-0d94037e30dc9809a
+# Change to your created instance public IP and key pair id.
+ec2_public_ip = 177.71.192.122
 key_pair_id = key-079052180a7c17723
  
 create-stack:
@@ -36,12 +37,12 @@ deploy:
 	git clone https://github.com/alpsilva/v-rising-wine-docker-image.git && \
 	cd v-rising-wine-docker-image/ && \
 	git pull"
-	scp -i "VRisingServerKey.pem" ./server/.env ec2-user@$(ec2_public_ip):~/v-rising-wine-docker-image/server/.env
+	scp -i VRisingServerKey.pem ./server/.env ec2-user@$(ec2_public_ip):~/v-rising-wine-docker-image/server/.env
 
 start:
 	ssh -i "VRisingServerKey.pem" ec2-user@$(ec2_public_ip) "\
 	cd v-rising-wine-docker-image/server/ && \
-	sudo docker-compose up -d"
+	sudo docker-compose -f docker-compose.yaml up"
 
 stop:
 	ssh -i "VRisingServerKey.pem" ec2-user@$(ec2_public_ip) "\
