@@ -1,0 +1,40 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'VRising Server Stack'
+
+Parameters:
+  KeyName:
+    Type: 'String'
+    Description: 'Name for the new EC2 KeyPair to enable SSH access to the instance'
+
+Resources:
+  VRisingServerSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: 'Security group for VRising Server Instance'
+      VpcId: 'vpc-0d94037e30dc9809a' # Change your vpc id
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: '0.0.0.0/0' # This allows SSH access from anywhere, adjust as needed for security
+        # Add other ingress rules as needed for your game server
+
+  VRisingServerKeyPair:
+    Type: 'AWS::EC2::KeyPair'
+    Properties:
+      KeyName: !Ref KeyName
+
+  VRisingServerInstance:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      InstanceType: 't2.micro'
+      KeyName: !Ref KeyName
+      ImageId: 'ami-0c0039bfde8cbfe27'  # Replace with your Amazon Linux 2023 AMI ID (x86)
+      NetworkInterfaces: 
+        - AssociatePublicIpAddress: "true"
+          DeviceIndex: "0"
+          GroupSet:
+            - !Ref VRisingServerSecurityGroup
+      Tags:
+        - Key: 'Name'
+          Value: 'VRisingServerInstance'
