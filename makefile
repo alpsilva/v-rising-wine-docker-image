@@ -35,8 +35,8 @@ delete-stack:
 deploy:
 	ssh -i "VRisingServerKey.pem" ec2-user@$(ec2_public_ip) "\
 	git clone https://github.com/alpsilva/v-rising-wine-docker-image.git && \
-	cd v-rising-wine-docker-image/ && \
-	git pull"
+	cd v-rising-wine-docker-image/server/ && \
+	mkdir saves"
 	scp -i VRisingServerKey.pem ./server/.env ec2-user@$(ec2_public_ip):~/v-rising-wine-docker-image/server/.env
 
 start:
