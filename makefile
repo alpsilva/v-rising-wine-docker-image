@@ -42,7 +42,7 @@ deploy:
 start:
 	ssh -i "VRisingServerKey.pem" ec2-user@$(ec2_public_ip) "\
 	cd v-rising-wine-docker-image/server/ && \
-	sudo docker-compose -f docker-compose.yaml up"
+	sudo docker-compose up -d"
 
 stop:
 	ssh -i "VRisingServerKey.pem" ec2-user@$(ec2_public_ip) "\
